@@ -22,13 +22,14 @@
   z-index: 10;
   width: 50px;
   height: 50px;
-  border: 15px solid;
+  border: 15px solid transparent;
   border-radius: 50%;
 
+  /*
   border-left-color: #212121;
-  border-top-color: #2c2c2c;
-  border-right-color: #373737;
-  border-bottom-color: #424242;
+  */
+  border-left-color: #2c2c2c;
+  opacity: 0;
   /*
   animation: loadEr 3s infinite;
   */
@@ -172,7 +173,7 @@
 <body>
 
   <div class="wrap">
-      <!--div class="loader"></div-->
+      <div class="loader"></div>
       <div class="loaderbefore"></div>
       <div class="circular"></div>
       <div class="circular another"></div>
@@ -282,154 +283,24 @@
 
 
             setTimeout(rotateAnother, 1000);
-            // rotateAnother();
 
-            /*
-            var rotateInner = function () {
 
-                loader.velocity({
-                }, {
-                    duration: 3000,
-                    easing: 'ease',
-                    // delay: 100,
-                    progress: function (elements, perc, remaining, start, tweenValue) {
-
-                        switch (perc) {
-
-                            case (perc >= 0.728) :
-                                $(elements).css({
-                                    "border-top-color": "rgba(44,44,44,0)",
-                                    "border-right-color": "rgba(55,55,55,0)",
-                                    "border-bottom-color": "rgba(66,66,66,0)",
-                                    "border-left-color": "rgba(33,33,33,0.5)"
-                                });
-                                break;
-
-                            case (perc >= 0.624) :
-                                $(elements).css({
-                                    "border-top-color": "rgba(44,44,44,0)",
-                                    "border-right-color": "rgba(55,55,55,0)",
-                                    "border-bottom-color": "rgba(66,66,66,0)",
-                                    "border-left-color": "rgba(33,33,33,0)"
-                                });
-                                break;
-
-                            case (perc >= 0.52) :
-                                $(elements).css({
-                                    "border-top-color": "rgba(44,44,44,0)",
-                                    "border-right-color": "rgba(55,55,55,0)",
-                                    "border-bottom-color": "rgba(66,66,66,0.5)",
-                                    "border-left-color": "rgba(33,33,33,0)"
-                                });
-                                break;
-
-                            case (perc >= 0.416) :
-                                $(elements).css({
-                                    "border-top-color": "rgba(44,44,44,0)",
-                                    "border-right-color": "rgba(55,55,55,0)",
-                                    "border-bottom-color": "rgba(66,66,66,0)",
-                                    "border-left-color": "rgba(33,33,33,0)",
-                                    transform: "rotate(40deg)"
-                                });
-                                break;
-
-                            case (perc >= 0.312) :
-                                $(elements).css({
-                                    "border-top-color": "rgba(44,44,44,0)",
-                                    "border-right-color": "rgba(55,55,55,0.5)",
-                                    "border-bottom-color": "rgba(66,66,66,0)",
-                                    "border-left-color": "rgba(33,33,33,0)"
-                                });
-                                break;
-
-                            case (perc >= 0.208) :
-                                $(elements).css({
-                                    "border-top-color": "rgba(44,44,44,0)",
-                                    "border-right-color": "rgba(55,55,55,0)",
-                                    "border-bottom-color": "rgba(66,66,66,0)",
-                                    "border-left-color": "rgba(33,33,33,0)"
-                                });
-                                break;
-
-                            case (perc >= 0.104) :
-                                $(elements).css({
-                                    "border-top-color": "rgba(44,44,44,0.5)",
-                                    "border-right-color": "rgba(55,55,55,0)",
-                                    "border-bottom-color": "rgba(66,66,66,0)",
-                                    "border-left-color": "rgba(33,33,33,0)"
-                                });
-                                break;
-
-                            case (perc >= 0) :
-                                $(elements).css({
-                                    "border-top-color": "rgba(44,44,44,0)",
-                                    "border-right-color": "rgba(55,55,55,0)",
-                                    "border-bottom-color": "rgba(66,66,66,0)",
-                                    "border-left-color": "rgba(33,33,33,0)"
-                                });
-                                break;
-                        }
-                    },
-                    complete: function (elements) {
-                        rotateInner();
-                    }
-                });
-            };
-            */
+            var innerOpac = 0, innerOpacEnd = 0.5;
 
             var rotateInner = function () {
 
                 loader.velocity({
-                    borderTopColor: ["rgba(44,44,44,0.5)", "rgba(44,44,44,0)"]
+                    opacity: [innerOpacEnd, innerOpac],
+                    rotateZ: "+=75" 
                 }, {
                     duration: 300,
-                    easing: 'ease'
-                })
-                .velocity({
-                    borderTopColor: "rgba(44,44,44,0)"
-                }, {
-                    duration: 300,
-                    easing: 'ease'
-                })
-                .velocity({
-                    borderRightColor: ["rgba(55,55,55,0.5)", "rgba(55,55,55,0)"]
-                }, {
-                    duration: 300,
-                    easing: 'ease'
-                })
-                .velocity({
-                    borderRightColor: "rgba(55,55,55,0)",
-                    rotate: [40, 0]
-                }, {
-                    duration: 300,
-                    easing: 'ease'
-                })
-                .velocity({
-                    borderBottomColor: ["rgba(66,66,66,0.5)", "rgba(66,66,66, 0)"],
-                    rotate: 0
-                }, {
-                    duration: 300,
-                    easing: 'ease'
-                })
-                .velocity({
-                    borderBottomColor: "rgba(66,66,66, 0)"
-                }, {
-                    duration: 300,
-                    easing: 'ease'
-                })
-                .velocity({
-                    borderLeftColor: ["rgba(33, 33, 33, 0.5)", "rgba(33, 33, 33, 0)"]
-                }, {
-                    duration: 300,
-                    easing: 'ease'
-                })
-                .velocity({
-                    borderLeftColor: "rgba(33, 33, 33, 0)"
-                }, {
-                    duration: 300,
-                    delay: 900,
+                    delay: 200,
                     easing: 'ease',
                     complete: function (elements) {
+                        var tmp = innerOpac;
+                        innerOpac = innerOpacEnd;
+                        innerOpacEnd = tmp;
+
                         rotateInner();
                     }
                 });
