@@ -24,10 +24,11 @@
   height: 50px;
   border: 15px solid;
   border-radius: 50%;
-  border-top-color: rgba(44,44,44,0);
-  border-right-color: rgba(55,55,55,0);
-  border-bottom-color: rgba(66,66,66,0);
-  border-left-color: rgba(33,33,33,0);
+
+  border-left-color: #212121;
+  border-top-color: #2c2c2c;
+  border-right-color: #373737;
+  border-bottom-color: #424242;
   /*
   animation: loadEr 3s infinite;
   */
@@ -110,15 +111,19 @@
   border-left-color: #fff;
   border-bottom-color: #333;
   border-right-color: #fff;
-  opacity: 0.2;
+
+  opacity: 0;
+  transform: scale(4, 4) rotate(0);
+
   /*
+  opacity: 0.2;
   animation: poof 5s infinite;
   */
 }
 
 .another {
-  opacity: 0.1;
-  transform: rotate(90deg);
+  opacity: 0;
+  transform: rotate(90deg) scale(4);
   /*
   animation: poofity 5s infinite;
   animation-delay: 1s;
@@ -167,19 +172,271 @@
 <body>
 
   <div class="wrap">
-      <div class="loader"></div>
+      <!--div class="loader"></div-->
       <div class="loaderbefore"></div>
       <div class="circular"></div>
       <div class="circular another"></div>
       <div class="text">Loading</div>
   </div>
 
-  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-  <script src='velocity.min.js'></script>
+  <!--script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script-->
+  <script src='./jquery.js'></script>
+  <script src='./velocity.min.js'></script>
 
-  <script type="text/javascript">
-      $(function () {
-      });
+    <script type="text/javascript">
+        // TODO add -webkit-transform;
+
+        $(function () {
+
+            var circular = $('.circular').eq(0);
+            var circular2 = $('.circular.another');
+            var loader = $('.loader');
+
+            /*
+            circular.velocity({
+                opacity: 0,
+                scale: (4,4)
+                // rotateZ: -360
+            }, {
+                // easing: 'linear',
+                duration: 2500,
+                loop: true
+            });
+            */
+
+            var circularOneStart = 0;
+            var circularOneDest = -360;
+
+            var circularOneOpacStart = 0;
+            var circularOneOpacEnd = 0.2;
+
+            var circularOneScale = 4;
+            var circularOneScaleEnd = 1;
+
+            var rotateOne = function () {
+
+                circular.velocity({
+                    opacity: [circularOneOpacEnd, circularOneOpacStart],
+                    scale: [circularOneScaleEnd, circularOneScale],
+                    rotateZ: [circularOneDest, circularOneStart]
+                }, {
+                    duration: 2500,
+                    easing: 'ease',
+                    // delay: 100,
+                    complete: function (elements) {
+
+                        var tmp = circularOneDest;
+                        circularOneDest = circularOneStart;
+                        circularOneStart = tmp;
+
+                        tmp = circularOneScale;
+                        circularOneScale = circularOneScaleEnd;
+                        circularOneScaleEnd = tmp;
+
+                        tmp = circularOneOpacEnd;
+                        circularOneOpacEnd = circularOneOpacStart;
+                        circularOneOpacStart = tmp;
+
+                        rotateOne();
+                    }
+                });
+            };
+            rotateOne();
+
+
+            var c2Opac = 0, c2OpacEnd = 0.1;
+            var c2Scale = 4, c2ScaleEnd = 1;
+            // var c2Rotate = 0, c2RotateMid = 90, c2RotateEnd = -360;
+
+            var c2Rotate1 = [90, 0];
+            var c2Rotate2 = [-360, 90];
+            var c2Rotate = c2Rotate1;
+
+            var rotateAnother = function () {
+
+                circular2.velocity({
+                    opacity: [c2OpacEnd, c2Opac],
+                    scale: [c2ScaleEnd, c2Scale],
+                    // rotateZ: [c2RotateMid, c2Rotate]
+                    rotateZ: c2Rotate
+                }, {
+                    duration: 2500,
+                    easing: 'ease',
+                    // delay: 100,
+                    complete: function (elements) {
+                        var tmp = c2Opac;
+                        c2Opac = c2OpacEnd;
+                        c2OpacEnd = tmp;
+
+                        tmp = c2Scale;
+                        c2Scale = c2ScaleEnd;
+                        c2ScaleEnd = tmp;
+
+                        c2Rotate = c2Rotate[0] === 90 ? c2Rotate2 : c2Rotate1;
+
+                        rotateAnother();
+                    }
+                });
+            };
+
+
+
+            setTimeout(rotateAnother, 1000);
+            // rotateAnother();
+
+            /*
+            var rotateInner = function () {
+
+                loader.velocity({
+                }, {
+                    duration: 3000,
+                    easing: 'ease',
+                    // delay: 100,
+                    progress: function (elements, perc, remaining, start, tweenValue) {
+
+                        switch (perc) {
+
+                            case (perc >= 0.728) :
+                                $(elements).css({
+                                    "border-top-color": "rgba(44,44,44,0)",
+                                    "border-right-color": "rgba(55,55,55,0)",
+                                    "border-bottom-color": "rgba(66,66,66,0)",
+                                    "border-left-color": "rgba(33,33,33,0.5)"
+                                });
+                                break;
+
+                            case (perc >= 0.624) :
+                                $(elements).css({
+                                    "border-top-color": "rgba(44,44,44,0)",
+                                    "border-right-color": "rgba(55,55,55,0)",
+                                    "border-bottom-color": "rgba(66,66,66,0)",
+                                    "border-left-color": "rgba(33,33,33,0)"
+                                });
+                                break;
+
+                            case (perc >= 0.52) :
+                                $(elements).css({
+                                    "border-top-color": "rgba(44,44,44,0)",
+                                    "border-right-color": "rgba(55,55,55,0)",
+                                    "border-bottom-color": "rgba(66,66,66,0.5)",
+                                    "border-left-color": "rgba(33,33,33,0)"
+                                });
+                                break;
+
+                            case (perc >= 0.416) :
+                                $(elements).css({
+                                    "border-top-color": "rgba(44,44,44,0)",
+                                    "border-right-color": "rgba(55,55,55,0)",
+                                    "border-bottom-color": "rgba(66,66,66,0)",
+                                    "border-left-color": "rgba(33,33,33,0)",
+                                    transform: "rotate(40deg)"
+                                });
+                                break;
+
+                            case (perc >= 0.312) :
+                                $(elements).css({
+                                    "border-top-color": "rgba(44,44,44,0)",
+                                    "border-right-color": "rgba(55,55,55,0.5)",
+                                    "border-bottom-color": "rgba(66,66,66,0)",
+                                    "border-left-color": "rgba(33,33,33,0)"
+                                });
+                                break;
+
+                            case (perc >= 0.208) :
+                                $(elements).css({
+                                    "border-top-color": "rgba(44,44,44,0)",
+                                    "border-right-color": "rgba(55,55,55,0)",
+                                    "border-bottom-color": "rgba(66,66,66,0)",
+                                    "border-left-color": "rgba(33,33,33,0)"
+                                });
+                                break;
+
+                            case (perc >= 0.104) :
+                                $(elements).css({
+                                    "border-top-color": "rgba(44,44,44,0.5)",
+                                    "border-right-color": "rgba(55,55,55,0)",
+                                    "border-bottom-color": "rgba(66,66,66,0)",
+                                    "border-left-color": "rgba(33,33,33,0)"
+                                });
+                                break;
+
+                            case (perc >= 0) :
+                                $(elements).css({
+                                    "border-top-color": "rgba(44,44,44,0)",
+                                    "border-right-color": "rgba(55,55,55,0)",
+                                    "border-bottom-color": "rgba(66,66,66,0)",
+                                    "border-left-color": "rgba(33,33,33,0)"
+                                });
+                                break;
+                        }
+                    },
+                    complete: function (elements) {
+                        rotateInner();
+                    }
+                });
+            };
+            */
+
+            var rotateInner = function () {
+
+                loader.velocity({
+                    borderTopColor: ["rgba(44,44,44,0.5)", "rgba(44,44,44,0)"]
+                }, {
+                    duration: 300,
+                    easing: 'ease'
+                })
+                .velocity({
+                    borderTopColor: "rgba(44,44,44,0)"
+                }, {
+                    duration: 300,
+                    easing: 'ease'
+                })
+                .velocity({
+                    borderRightColor: ["rgba(55,55,55,0.5)", "rgba(55,55,55,0)"]
+                }, {
+                    duration: 300,
+                    easing: 'ease'
+                })
+                .velocity({
+                    borderRightColor: "rgba(55,55,55,0)",
+                    rotate: [40, 0]
+                }, {
+                    duration: 300,
+                    easing: 'ease'
+                })
+                .velocity({
+                    borderBottomColor: ["rgba(66,66,66,0.5)", "rgba(66,66,66, 0)"],
+                    rotate: 0
+                }, {
+                    duration: 300,
+                    easing: 'ease'
+                })
+                .velocity({
+                    borderBottomColor: "rgba(66,66,66, 0)"
+                }, {
+                    duration: 300,
+                    easing: 'ease'
+                })
+                .velocity({
+                    borderLeftColor: ["rgba(33, 33, 33, 0.5)", "rgba(33, 33, 33, 0)"]
+                }, {
+                    duration: 300,
+                    easing: 'ease'
+                })
+                .velocity({
+                    borderLeftColor: "rgba(33, 33, 33, 0)"
+                }, {
+                    duration: 300,
+                    delay: 900,
+                    easing: 'ease',
+                    complete: function (elements) {
+                        rotateInner();
+                    }
+                });
+            };
+
+            rotateInner();
+        });
   </script>
 
 </body>
