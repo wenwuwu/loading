@@ -5,8 +5,6 @@
 $(function () {
     var 
 
-    var wrap = $('<div>').addClass('rotate-loading-wrap')
-                         .hide().appendTo();
 
     var circular = $('.outer').eq(0);
     var circular2 = $('.outer.another');
