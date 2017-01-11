@@ -1,8 +1,7 @@
 
-// TODO add -webkit-transform;
 // TODO resize ROTATE-SCALE animation element.
 
-if (module && module.exports) {
+if (typeof module !== 'undefined' && module.exports) {
 
     var $ = require('jquery');
 
@@ -49,7 +48,7 @@ function WaitState (parentElm) {
     this._config   = {};
     this._type     = WaitState.types[0];
     this._isActive = false;
-    this._adjW     = 0;
+    this._adjW     = 0;             // TODO move to each type.
     this._adjH     = 0;
     this._cnt      = 0;
 
@@ -57,7 +56,7 @@ function WaitState (parentElm) {
     // this.events = new Events('click');
 }
 
-WaitState.types = ['ROTATE-SCALE'];
+WaitState.types = ['DEFAULT', 'ROTATE-SCALE'];
 
 WaitState.prototype = {
     constructor: WaitState,
@@ -83,6 +82,10 @@ WaitState.prototype = {
                 this._stopAnimation(type);
                 wrap.remove();
             }
+
+            delete this._dom    [type];
+            delete this._options[type];
+            delete this._config [type];
         }
     },
 
@@ -123,10 +126,10 @@ WaitState.prototype = {
 
         var type = this._type;
 
-        if (type === 'rotate-scale') {
+        if (type === 'ROTATE-SCALE') {
 
             var wrap = $('<div>').appendTo(this._parent)
-                                 .addClass('wait-state ' + type);
+                                 .addClass('wait-state ' + type.toLowerCase());
                                  // .bind('click', this._click);
                                  
             var layer = $('<div>').appendTo(wrap)
@@ -311,8 +314,15 @@ WaitState.prototype = {
 
         if (this._cnt <= 0) {
             if (this._isActive) {
-                this._dom[this._type].wrap.hide();
-                this._stopAnimation();
+
+                var type = this._type;
+                this._dom[type].wrap.hide();
+
+                if (type === 'ROTATE-SCALE')
+                    this.destroyOne(type);
+                else 
+                    this._stopAnimation();
+
                 this._isActive = false;
             }
 

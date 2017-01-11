@@ -1,13 +1,89 @@
-.waitstate {
+
+.wait-state {
 	position: absolute;
     top: 0px;
     left: 0px;
+    text-align: center;
+    margin: 0 auto;
+    z-index: 1000;
+}
 
+.wait-state.default {
     background-color: rgba(255,255,255,0.5);
     background-image: url(images/wait.gif);
     background-repeat: no-repeat;
     background-size: 80px;
     background-position: center center;
+}
 
-    z-index: 1000;
+.wait-state.rotate-scale > .inner {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+
+    width: 50px;
+    height: 50px;
+    border: 15px solid transparent;
+
+    border-radius: 50%;
+    border-left-color: #2c2c2c;
+    opacity: 0;
+    z-index: 1002;
+}
+
+.wait-state.rotate-scale > .static {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+
+    width: 50px;
+    height:50px;
+    border: 15px solid #ddd;
+
+    border-radius: 50%;
+    z-index: 1001;
+}
+
+.wait-state.rotate-scale > .outer {
+    /*
+    top: -15px;
+    left: -15px;
+    */
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+
+    width: 70px;
+    height: 70px;
+    border: 20px solid;
+
+    border-radius: 50%;
+    border-top-color: #333;
+    border-left-color: #fff;
+    border-bottom-color: #333;
+    border-right-color: #fff;
+
+    opacity: 0;
+
+    -webkit-transform: scale(4, 4) rotate(0);
+        -ms-transform: scale(4, 4) rotate(0);
+            transform: scale(4, 4) rotate(0);
+}
+
+.wait-state.rotate-scale > .outer.another {
+    opacity: 0;
+
+    -webkit-transform: rotate(90deg) scale(4);
+        -ms-transform: rotate(90deg) scale(4);
+            transform: rotate(90deg) scale(4);
 }

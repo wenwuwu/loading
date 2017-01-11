@@ -7,103 +7,51 @@
     <meta http-equiv="Expires" content="-1">
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 
+    <link rel="stylesheet" type="text/css" href="./component/css/wait-state.css">
+
     <style>
-        .dataTable { padding: 2px 5px 2px 5px; }
-        .dataTable td { 
-            text-align: right;
-            white-space: nowrap; 
+        body {
+            width: 100vw;
+            height: 100vh;
         }
-        .scrollableTable { border: solid 1px #AAAAAA; }
+        #main {
+            width: 80vw;
+            height: 80vh;
+
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            border: 1px solid #aaa;
+        }
     </style>
 
 </head>
 
 <body>
-    <div id="myTableWrapper" class="scrollableTable">
-     <table id="myTable" class="dataTable">
-      <thead>
-       <tr>
-        <th>Date</th>
-        <th>Open</th>
-        <th>High</th>
-        <th>Low</th>
-        <th>Close</th>
-        <th>Volume</th>
-       </tr>
-      </thead>
-
-      <tbody>
-       <tr>
-        <td>2010-11-05</td>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-       </tr>
-       <tr>
-        <td>2011-11-05</td>
-        <td>2</td>
-        <td>2</td>
-        <td>2</td>
-        <td>2</td>
-        <td>2</td>
-       </tr>
-       <tr>
-        <td>2012-11-05</td>
-        <td>3</td>
-        <td>3</td>
-        <td>3</td>
-        <td>3</td>
-        <td>3</td>
-       </tr>
-       <tr>
-        <td>2013-11-05</td>
-        <td>4</td>
-        <td>4</td>
-        <td>4</td>
-        <td>4</td>
-        <td>4</td>
-       </tr>
-       <tr>
-        <td>2014-11-05</td>
-        <td>5</td>
-        <td>5</td>
-        <td>5</td>
-        <td>5</td>
-        <td>5</td>
-       </tr>
-       <tr>
-        <td>2015-11-05</td>
-        <td>6</td>
-        <td>6</td>
-        <td>6</td>
-        <td>6</td>
-        <td>6</td>
-       </tr>
-      </tbody>
-     </table>
-    </div>
-
+    <div id="main"></div>
     <input type="button" id="btnWait" name="btnWait" value="Wait" />
     <input type="button" id="btnReady" name="btnReady" value="Ready" />
 
 
   <script src='./component/lib/jquery-3.1.1.min.js'></script>
   <script src='./component/lib/velocity.min.js'></script>
+  <script src='./component/wait-state.js'></script>
 
   <script>
 
       $(function () {
-          var waitState = new WaitState($('#myTable'));
+          var waitState = new WaitState($('#main'));
           waitState.type('ROTATE-SCALE');
 
-          $('#btnWait').onclick = function () {
+          $('#btnWait').bind('click', function () {
               waitState.setWait();
-          };
-          $('#btnReady').onclick = function () {
+          });
+          $('#btnReady').bind('click', function () {
               waitState.setReady();
-          };
+          });
       });
 
   </script>
