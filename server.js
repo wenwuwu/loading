@@ -2,8 +2,6 @@
 var express = require('express')
 var compression = require('compression')
 var path = require('path')
-var fs = require('fs')
-var readline = require('readline')
 var port = process.env.PORT || 3000
 var app = express()
 var nodeEnv = process.env.NODE_ENV || 'development'
@@ -20,12 +18,12 @@ function shouldCompress (req, res) {
 };
 
 function serveIndexPage (res) {
-    response.sendFile(path.resolve(__dirname, '/', 'index.html'));    // Make sure don't cache it.
+    res.sendFile(path.resolve(__dirname, '/component', 'index.html'));    // Make sure don't cache it.
 };
 
 app.use(express.static(__dirname + '/component'));
 
-app.get('*', function (req, res) {
+app.get('/', function (req, res) {
     serveIndexPage(res);
 });
 
