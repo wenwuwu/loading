@@ -175,7 +175,7 @@ WaitState.prototype = {
             var outerOpacity = 0;
             var outerOpacityEnd = 0.2;
 
-            var outerScale = 4;
+            var outerScale = 3;
             var outerScaleEnd = 1;
 
             cfg.animating = true;
@@ -187,7 +187,7 @@ WaitState.prototype = {
                     scale:   [outerScaleEnd, outerScale],
                     rotateZ: [outerRotateEnd, outerRotate]
                 }, {
-                    duration: 2500,
+                    duration: 2000,
                     easing: 'ease',
                     // delay: 100,
                     complete: function (elements) {
@@ -213,7 +213,7 @@ WaitState.prototype = {
             };
 
             var c2Opac = 0, c2OpacEnd = 0.1;
-            var c2Scale = 4, c2ScaleEnd = 1;
+            var c2Scale = 3, c2ScaleEnd = 1;
             var c2Rotate1 = [90, 0];
             var c2Rotate2 = [-360, 90];
             var c2Rotate = c2Rotate1;
@@ -225,7 +225,7 @@ WaitState.prototype = {
                     scale:   [c2ScaleEnd, c2Scale],
                     rotateZ: c2Rotate
                 }, {
-                    duration: 2500,
+                    duration: 2000,
                     easing: 'ease',
                     // delay: 100,
                     complete: function (elements) {
@@ -274,7 +274,7 @@ WaitState.prototype = {
             };
 
             rotateOuter();
-            cfg.outer2Timer = setTimeout(rotateOuter2, 1000);
+            cfg.outer2Timer = setTimeout(rotateOuter2, 800);
             rotateInner();
         }
 
