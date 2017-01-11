@@ -110,10 +110,11 @@ WaitState.prototype = {
         this._cnt++;
 
         if (this._cnt > 0) {
-            if (this._isVoid(this._dom[this._type]))
+            if (this._isVoid(this._dom[this._type])) {
                 this._initWrap();
-
-            this._startAnimation();
+                if (this._type === 'ROTATE-SCALE')
+                    this._startAnimation();
+            }
 
             this._isActive = true;
             this._resize().show();
