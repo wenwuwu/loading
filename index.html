@@ -1,30 +1,112 @@
 <!DOCTYPE html>
 <html >
 <head>
-  <meta charset="UTF-8">
-  <title>Loading!</title>
-  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <meta charset="UTF-8">
+    <title>Loading</title>
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
 
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+    <style>
+        .dataTable { padding: 2px 5px 2px 5px; }
+        .dataTable td { 
+            text-align: right;
+            white-space: nowrap; 
+        }
+        .scrollableTable { border: solid 1px #AAAAAA; }
+    </style>
 
 </head>
 
 <body>
+    <div id="myTableWrapper" class="scrollableTable">
+     <table id="myTable" class="dataTable">
+      <thead>
+       <tr>
+        <th>Date</th>
+        <th>Open</th>
+        <th>High</th>
+        <th>Low</th>
+        <th>Close</th>
+        <th>Volume</th>
+       </tr>
+      </thead>
 
-  <div class="rotate-loading-wrap">
-      <div class="layer-blur"></div>
-      <div class="inner"></div>
-      <div class="static"></div>
+      <tbody>
+       <tr>
+        <td>2010-11-05</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+       </tr>
+       <tr>
+        <td>2011-11-05</td>
+        <td>2</td>
+        <td>2</td>
+        <td>2</td>
+        <td>2</td>
+        <td>2</td>
+       </tr>
+       <tr>
+        <td>2012-11-05</td>
+        <td>3</td>
+        <td>3</td>
+        <td>3</td>
+        <td>3</td>
+        <td>3</td>
+       </tr>
+       <tr>
+        <td>2013-11-05</td>
+        <td>4</td>
+        <td>4</td>
+        <td>4</td>
+        <td>4</td>
+        <td>4</td>
+       </tr>
+       <tr>
+        <td>2014-11-05</td>
+        <td>5</td>
+        <td>5</td>
+        <td>5</td>
+        <td>5</td>
+        <td>5</td>
+       </tr>
+       <tr>
+        <td>2015-11-05</td>
+        <td>6</td>
+        <td>6</td>
+        <td>6</td>
+        <td>6</td>
+        <td>6</td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
 
-      <div class="outer"></div>
-      <div class="outer another"></div>
-      <div class="text"></div>
-  </div>
+    <input type="button" id="btnWait" name="btnWait" value="Wait" />
+    <input type="button" id="btnReady" name="btnReady" value="Ready" />
 
-  <script src='./jquery.js'></script>
-  <script src='./velocity.min.js'></script>
+
+  <script src='./component/lib/jquery-3.1.1.min.js'></script>
+  <script src='./component/lib/velocity.min.js'></script>
+
+  <script>
+
+      $(function () {
+          var waitState = new WaitState($('#myTable'));
+          waitState.type('ROTATE-SCALE');
+
+          $('#btnWait').onclick = function () {
+              waitState.setWait();
+          };
+          $('#btnReady').onclick = function () {
+              waitState.setReady();
+          };
+      });
+
+  </script>
 
 </body>
 </html>

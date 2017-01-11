@@ -1,15 +1,25 @@
 
 // TODO add -webkit-transform;
-
-var $ = require('jquery');
-var velocity; // TODO
-
 // TODO resize ROTATE-SCALE animation element.
+
+if (module && module.exports) {
+
+    var $ = require('jquery');
+
+    require('velocity');    // TODO test if $.velocity is added to jquery by "require('velocity')";
+
+    module.exports = WaitState;
+}
+else {
+    window.WaitState = WaitState;
+}
+
 
 // Events  = require('events-es5'),
 // Objects = require('object-es5'),
 // Fns     = require('function-es5');
 // require('./wait-state.css!');
+
 
 
 /**
@@ -20,7 +30,7 @@ var velocity; // TODO
 * @param parentElm {DOM Node or jQuery} - the element that WaitState instance will be appended to.
 * @return {WaitState}
 */
-var WaitState = function (parentElm) {
+function WaitState (parentElm) {
 
     if (   typeof parentElm === 'undefined'
         || parentElm === null )
@@ -45,7 +55,7 @@ var WaitState = function (parentElm) {
 
     // Fns.setInContext(this, '_click');
     // this.events = new Events('click');
-};
+}
 
 WaitState.types = ['ROTATE-SCALE'];
 
@@ -109,7 +119,7 @@ WaitState.prototype = {
         return this;
     },
 
-    _initWrap: functionn () {
+    _initWrap: function () {
 
         var type = this._type;
 
@@ -181,8 +191,8 @@ WaitState.prototype = {
                         if (cfg.animating) {
 
                             var tmp = outerRotateEnd;
-                            outerRotateEnd = circularOneStart;
-                            circularOneStart = tmp;
+                            outerRotateEnd = outerRotate;
+                            outerRotate = tmp;
 
                             tmp = outerScale;
                             outerScale = outerScaleEnd;
@@ -263,6 +273,8 @@ WaitState.prototype = {
             cfg.outer2Timer = setTimeout(rotateOuter2, 1000);
             rotateInner();
         }
+
+        return this;
     },
 
     _stopAnimation: function (type) {
@@ -276,14 +288,18 @@ WaitState.prototype = {
             cfg.animating = false;
             clearTimeout(cfg.outer2Timer);
 
-            this._stopVelocityAnimation(dom.outer);
-            this._stopVelocityAnimation(dom.outer2);
-            this._stopVelocityAnimation(dom.inner);
+            this._stopVelocityAnimation(dom.outer)
+                ._stopVelocityAnimation(dom.outer2)
+                ._stopVelocityAnimation(dom.inner);
         }
+
+        return this;
     },
 
     _stopVelocityAnimation: function (elem) {
         elem.velocity('stop', true);
+
+        return this;
     },
 
     /**
@@ -320,6 +336,7 @@ WaitState.prototype = {
         else {
             this._validateType(type);
             this._type = type;
+            return this;
         }
     },
 
@@ -331,6 +348,7 @@ WaitState.prototype = {
             throw "IllegalArgumentException: opts must be an object.";
 
         this._options[type] = opts;         // TODO validate options.
+        return this;
     },
     
     /**
@@ -441,5 +459,3 @@ WaitState.prototype = {
     }
     */
 };
-
-module.exports = WaitState;
