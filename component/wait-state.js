@@ -127,6 +127,7 @@ WaitState.prototype = {
     _initRotateScaleDom: function (type) {
 
         var wrap = $('<div>').appendTo(this._parent)
+                             .hide()
                              .addClass('wait-state ' + type.toLowerCase());
                              // .bind('click', this._click);
                              
