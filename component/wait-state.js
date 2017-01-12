@@ -47,16 +47,13 @@ function WaitState (parentElm) {
     this._options  = {};
     this._config   = {};
     this._type     = WaitState.types[0];
-    this._isActive = false;
-    this._adjW     = 0;             // TODO move to each type.
-    this._adjH     = 0;
-    this._cnt      = 0;
+    this._reset();
 
     // Fns.setInContext(this, '_click');
     // this.events = new Events('click');
 }
 
-WaitState.types = ['DEFAULT', 'ROTATE-SCALE'];
+WaitState.types = ['DEFAULT', 'ROTATE-SCALE', 'ROTATE-SCALE-CSS3'];
 
 WaitState.prototype = {
     constructor: WaitState,
@@ -78,8 +75,10 @@ WaitState.prototype = {
 
         if (dom.hasOwnProperty(type)) {
             var wrap = dom[type].wrap;
+
             if (!this._isVoid(wrap)) {
-                this._stopAnimation(type);
+                if (type === 'ROTATE-SCALE')
+                    this._stopAnimation(type);
                 wrap.remove();
             }
 
@@ -111,7 +110,7 @@ WaitState.prototype = {
 
         if (this._cnt > 0) {
             if (this._isVoid(this._dom[this._type])) {
-                this._initWrap();
+                this._initDom();
                 if (this._type === 'ROTATE-SCALE')
                     this._startAnimation();
             }
@@ -123,37 +122,40 @@ WaitState.prototype = {
         return this;
     },
 
-    _initWrap: function () {
+    _initRotateScaleDom: function (type) {
 
+        var wrap = $('<div>').appendTo(this._parent)
+                             .addClass('wait-state ' + type.toLowerCase());
+                             // .bind('click', this._click);
+                             
+        var layer = $('<div>').appendTo(wrap)
+                              .addClass('layer-blur');
+        var inner = $('<div>').appendTo(wrap)
+                              .addClass('inner');
+        var still = $('<div>').appendTo(wrap)
+                              .addClass('static');
+        var outer = $('<div>').appendTo(wrap)
+                              .addClass('outer');
+        var outer2 = $('<div>').appendTo(wrap)
+                               .addClass('outer another');
+
+        this._dom[type] = {
+            wrap:   wrap,
+            layer:  layer,
+            inner:  inner,
+            still:  still,
+            outer:  outer,
+            outer2: outer2
+        };
+        this._config[type] = {};
+    },
+
+    _initDom: function () {
         var type = this._type;
 
-        if (type === 'ROTATE-SCALE') {
-
-            var wrap = $('<div>').appendTo(this._parent)
-                                 .addClass('wait-state ' + type.toLowerCase());
-                                 // .bind('click', this._click);
-                                 
-            var layer = $('<div>').appendTo(wrap)
-                                  .addClass('layer-blur');
-            var inner = $('<div>').appendTo(wrap)
-                                  .addClass('inner');
-            var still = $('<div>').appendTo(wrap)
-                                  .addClass('static');
-            var outer = $('<div>').appendTo(wrap)
-                                  .addClass('outer');
-            var outer2 = $('<div>').appendTo(wrap)
-                                   .addClass('outer another');
-
-            this._dom[type] = {
-                wrap:   wrap,
-                layer:  layer,
-                inner:  inner,
-                still:  still,
-                outer:  outer,
-                outer2: outer2
-            };
-            this._config[type] = {};
-        }
+        if (   type === 'ROTATE-SCALE' 
+            || type === 'ROTATE-SCALE-CSS3' )
+            this._initRotateScaleDom(type);
         else 
             throw "IllegalStateException: type " + type + " is not implemented yet.";
     },
@@ -288,14 +290,12 @@ WaitState.prototype = {
         var dom = this._getDom(type);
         var cfg = this._getConfig(type);
 
-        if (type === 'ROTATE-SCALE') {
-            cfg.animating = false;
-            clearTimeout(cfg.outer2Timer);
+        cfg.animating = false;
+        clearTimeout(cfg.outer2Timer);
 
-            this._stopVelocityAnimation(dom.outer)
-                ._stopVelocityAnimation(dom.outer2)
-                ._stopVelocityAnimation(dom.inner);
-        }
+        this._stopVelocityAnimation(dom.outer)
+            ._stopVelocityAnimation(dom.outer2)
+            ._stopVelocityAnimation(dom.inner);
 
         return this;
     },
@@ -319,10 +319,9 @@ WaitState.prototype = {
                 var type = this._type;
                 this._dom[type].wrap.hide();
 
-                if (type === 'ROTATE-SCALE')
+                if (   type === 'ROTATE-SCALE' 
+                    || type === 'ROTATE-SCALE-CSS3' )
                     this.destroyOne(type);
-                else 
-                    this._stopAnimation();
 
                 this._isActive = false;
             }
@@ -346,9 +345,19 @@ WaitState.prototype = {
 
         else {
             this._validateType(type);
+            this.destroyOne(this._type);
             this._type = type;
+            this._reset();
+
             return this;
         }
+    },
+
+    _reset: function () {
+        this._isActive = false;
+        this._adjW     = 0;             // TODO move to each type.
+        this._adjH     = 0;
+        this._cnt      = 0;
     },
 
     setOptions: function (type, opts) {

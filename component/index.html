@@ -32,6 +32,7 @@
 <body>
     <div id="main"></div>
     <input type="button" id="btnWait" name="btnWait" value="Wait" />
+    <input type="button" id="btnWait2" name="btnWait2" value="Wait (CSS3)" />
     <input type="button" id="btnReady" name="btnReady" value="Ready" />
 
 
@@ -43,10 +44,14 @@
 
       $(function () {
           var waitState = new WaitState($('#main'));
-          waitState.type('ROTATE-SCALE');
 
           $('#btnWait').bind('click', function () {
-              waitState.setWait();
+              waitState.type('ROTATE-SCALE')
+                       .setWait();
+          });
+          $('#btnWait2').bind('click', function () {
+              waitState.type('ROTATE-SCALE-CSS3')
+                       .setWait();
           });
           $('#btnReady').bind('click', function () {
               waitState.setReady();
