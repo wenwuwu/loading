@@ -34,6 +34,7 @@
     <input type="button" id="btnWait" name="btnWait" value="Wait" />
     <input type="button" id="btnWait2" name="btnWait2" value="Wait (CSS3)" />
     <input type="button" id="btnReady" name="btnReady" value="Ready" />
+    <input type="button" id="btnToggleColor" name="btnToggleColor" value="Toggle Color" />
 
 
   <script src='./lib/jquery-3.1.1.min.js'></script>
@@ -55,6 +56,12 @@
           });
           $('#btnReady').bind('click', function () {
               waitState.setReady();
+          });
+
+          $('#btnToggleColor').bind('click', function () {
+              waitState.setReady()
+                       .color(waitState.color() !== null ? null: 'BLUE')
+                       .setWait();
           });
       });
 

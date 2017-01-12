@@ -46,14 +46,16 @@ function WaitState (parentElm) {
     this._dom      = {};
     this._options  = {};
     this._config   = {};
-    this._type     = WaitState.types[0];
+    this._type     = WaitState.types [0];
+    this._color    = null;
     this._reset();
 
     // Fns.setInContext(this, '_click');
     // this.events = new Events('click');
 }
 
-WaitState.types = ['DEFAULT', 'ROTATE-SCALE', 'ROTATE-SCALE-CSS3'];
+WaitState.types  = ['DEFAULT', 'ROTATE-SCALE', 'ROTATE-SCALE-CSS3'];
+WaitState.colors = ['BLUE'];
 
 WaitState.prototype = {
     constructor: WaitState,
@@ -148,6 +150,9 @@ WaitState.prototype = {
             outer2: outer2
         };
         this._config[type] = {};
+
+        if (this._color !== null)
+            wrap.addClass(this._color.toLowerCase());
     },
 
     _initDom: function () {
@@ -339,6 +344,11 @@ WaitState.prototype = {
             throw "IllegalArgumentException: type " + type + ' is not supported yet.';
     },
 
+    _validateColor: function (color) {
+        if (WaitState.colors.indexOf(color) < 0)
+            throw "IllegalArgumentException: color " + color + ' is not supported yet.';
+    },
+
     type: function (type) {
         if (typeof type === 'undefined')
             return this._type;
@@ -348,6 +358,20 @@ WaitState.prototype = {
             this.destroyOne(this._type);
             this._type = type;
             this._reset();
+
+            return this;
+        }
+    },
+
+    color: function (color) {
+        if (typeof color === 'undefined')
+            return this._color;
+
+        else {
+            if (color !== null)
+                this._validateColor(color);
+
+            this._color = color;
 
             return this;
         }
