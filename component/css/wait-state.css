@@ -263,7 +263,7 @@
 
 
 .wait-state.rotate-scale.blue > .inner {
-    border-left-color: #2c2c2c;
+    border-left-color: #1b3147;
 }
 .wait-state.rotate-scale-css3.blue > .inner {
     -webkit-animation: loadErBlue 3s infinite;
@@ -272,69 +272,67 @@
 
 .wait-state.rotate-scale.blue      > .static,
 .wait-state.rotate-scale-css3.blue > .static {
-    border-color: #ddd;
+    border-color: #42a4f4;
 }
 .wait-state.rotate-scale.blue      > .outer,
 .wait-state.rotate-scale-css3.blue > .outer {
-    border-top-color:    #333;
-    border-bottom-color: #333;
+    border-top-color: #0060d3;
+    border-bottom-color: #0060d3;
 }
 
 @-webkit-keyframes loadErBlue {
   0% {
-    border-color: rgba(44, 44, 44, 0);
+    border-color: rgba(27,49,71, 0);
   }
   10.4% {
-    border-top-color: rgba(44, 44, 44, 0.5);
+    border-top-color: rgba(27,49,71, 0.5);
   }
   20.8% {
-    border-color: rgba(44, 44, 44, 0);
+    border-color: rgba(27,49,71, 0);
   }
     31.2% {
-        border-right-color: rgba(44, 44, 44, 0.5);
+        border-right-color: rgba(27,49,71, 0.5);
     }
     41.6% {
-        border-color: rgba(44, 44, 44, 0);
+        border-color: rgba(27,49,71, 0);
         -webkit-transform: rotate(40deg);
         transform: rotate(40deg);
     }
     52% {
-        border-bottom-color: rgba(44, 44, 44, 0.5);
+        border-bottom-color: rgba(27,49,71, 0.5);
     }
     62.4% {
-        border-color: rgba(44, 44, 44, 0);
+        border-color: rgba(27,49,71, 0);
     }
     72.8% {
-    border-left-color: rgba(44, 44, 44, 0.5);
+        border-left-color: rgba(27,49,71, 0.5);
     }
 }
-
 @keyframes loadErBlue {
   0% {
-    border-color: rgba(44, 44, 44, 0);
+    border-color: rgba(27,49,71, 0);
   }
   10.4% {
-    border-top-color: rgba(44, 44, 44, 0.5);
+    border-top-color: rgba(27,49,71, 0.5);
   }
   20.8% {
-    border-color: rgba(44, 44, 44, 0);
+    border-color: rgba(27,49,71, 0);
   }
     31.2% {
-        border-right-color: rgba(44, 44, 44, 0.5);
+        border-right-color: rgba(27,49,71, 0.5);
     }
     41.6% {
-        border-color: rgba(44, 44, 44, 0);
+        border-color: rgba(27,49,71, 0);
         -webkit-transform: rotate(40deg);
         transform: rotate(40deg);
     }
     52% {
-        border-bottom-color: rgba(44, 44, 44, 0.5);
+        border-bottom-color: rgba(27,49,71, 0.5);
     }
     62.4% {
-        border-color: rgba(44, 44, 44, 0);
+        border-color: rgba(27,49,71, 0);
     }
     72.8% {
-    border-left-color: rgba(44, 44, 44, 0.5);
+        border-left-color: rgba(27,49,71, 0.5);
     }
 }
-
